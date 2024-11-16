@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+
+// Using this helper to handle null values of any fields in a map
+// If not null , parse it to String or any type data
+// If null , just return null
 public class DataHelper {
 
     public static String getString(Map<String, Object> sourceData, String key) {

@@ -41,6 +41,7 @@ public class AscendaAssignmentApplication {
             allHotelsData.addAll(supplier.fetch());
         });
 
+        // Merge all the data
         HotelService hotelService = new HotelService();
         hotelService.mergeAndSave(allHotelsData);
 

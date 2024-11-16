@@ -16,7 +16,8 @@ public class HotelService {
         datas.forEach(hotel->{
             if(mergedData.containsKey(hotel.getId()))
             {
-
+                // If any fields of new hotel != null , set it to existing hotel
+                // If data type is array , merge 2 arrays of existing and new hotel and set it to existing hotel
                 Hotel existingHotel = mergedData.get(hotel.getId());
                 existingHotel.merge(hotel);
                 mergedData.put(hotel.getId(), existingHotel);
