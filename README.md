@@ -61,27 +61,27 @@ d SGD 82.39 per person per night in an extra bed. The maximum number of children
 
 ```
 ## Approach description
-1. Class Structure and Data
-- Supplier :
+### 1. Class Structure and Data
+#### - Supplier :
   + An abstract ```BaseSupplier``` class and subclasses like ```AcmeSupplier```,```PatagoniaSupplier```,```PaperfliesSupplier```
   + These suppliers are required to implement ```endpoint()``` (the api url of the supplier) and ```parse()``` (converting data from the api into ```Hotel``` object)
   + These suppliers are automatically registered through ```SupplierFactory```, allowing for easy addition or management of suppliers
-- Hotel :
+#### - Hotel :
   + Containing detailed information about the hotel, including ```name```,```location```,```amenities```,```images```. These attributes can be merged between hotels if they have the same ```id```.
   + The ```Hotel``` class also implements the ```Mergeable``` interface to support merging information from other ```Hotel``` objects. Subclasses like ```Amenities```,```Location```,```Images``` also support similar merging behavior.
-2. Data merging process
-- Fetching data from suppliers :
+### 2. Data merging process
+#### - Fetching data from suppliers :
   + The suppliers fetch data from external APIs. The data is then parsed and converted into ```Hotel``` objects through ```parse()``` method
-- Merging Hotel Data :
+#### - Merging Hotel Data :
   + After collecting data from all the suppliers, using ```mergeAndSave()``` method in ```HotelService``` class to merge hotels with the same ```id```.
   + This method uses a ```Map<String,Hotel>``` to store hotels by their ```id```. If the new hotel has an ```id``` that already exists in the map, it calls the ```merge()``` method of the ```Hotel``` object to combine data. The merging process ensures that all the non-null attributes of the new hotel will be updated in the existing hotel.
   + If the hotel does not exist in the map, it is added to the map.
-- Filtering data :
+#### - Filtering data :
   + When a request to search for the hotels , the ```HotelService``` class provides the ```find()``` method to filter hotels by ```hotelIds``` and ```destinationIds```. The filtered hotels are returned as a list, allowing to search based on criteria.
- 3. Benefits of the solution
-- Extensibility :
+### 3. Benefits of the solution
+#### - Extensibility :
   + Using ```Supplier``` classes and ```SupplierFactory``` allows the system to be easily extended. We can add new suppliers without changing the core of structure of the application -simple create a new ```Supplier``` class and register it through ```SupplierFactory```
-- Data merging capability :
+#### - Data merging capability :
   + The data merging process ensures that hotels from different suppliers are combined accurately and completely. If there are discrepancies between different versions of the same hotel, the new data will be fill in missing fields or update existing fields with new values.
 - Easy to manage and maintain :
   + By separating the responsibilities of each class (e.g., the ```BaseSupplier``` class only fetches data, while the ```HotelService``` class handles merging and searching), the code is easier to maintain and extend.
