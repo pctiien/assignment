@@ -7,14 +7,18 @@ import com.example.ascendaassignment.supplier.factory.SupplierFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.reflections.Reflections;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class AscendaAssignmentApplication {
@@ -62,15 +66,31 @@ public class AscendaAssignmentApplication {
 
         SpringApplication.run(AscendaAssignmentApplication.class, args);
 
+    }
+    @Bean
+    public CommandLineRunner run() {
         // Automatically register to Supplier Factory
         initializeSuppliers("com.example.ascendaassignment.supplier");
 
-        String[] hotelIds = new String[]{"iJhz"};
-        Long[] destinationIds = new Long[]{5432L};
+        return (args) -> {
+                if (args.length < 2) {
+                    System.out.println("Insufficient arguments provided!");
+                    return;
+                }
 
-        System.out.println(fetchHotels(hotelIds,destinationIds));
+                // Reading hotelIds and destinationIds from CLI arguments
+                String[] hotelIds = "none".equalsIgnoreCase(args[0]) ? null : args[0].split(",");
+                Long[] destinationIds = "none".equalsIgnoreCase(args[1])
+                        ? null
+                        : Arrays.stream(args[1].split(","))
+                        .map(Long::parseLong)
+                        .toArray(Long[]::new);
 
+                // Call fetchHotels
+                System.out.println(fetchHotels(hotelIds, destinationIds));
+            };
 
+        };
     }
 
-}
+

@@ -73,7 +73,7 @@ public class PaperfliesSupplier extends BaseSupplier{
             return imageItem;
         }).collect(Collectors.toCollection(ArrayList::new)));
 
-        // Images site
+            // Images site
         ArrayList<Object> siteImagesData = DataHelper.getList(imagesData,"site");
         images.setSite(siteImagesData.stream().map(image -> {
             Hotel.ImageItem imageItem = new Hotel.ImageItem();

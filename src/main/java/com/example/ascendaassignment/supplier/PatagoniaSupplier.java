@@ -57,7 +57,7 @@ public class PatagoniaSupplier extends BaseSupplier{
         var imagesData = DataHelper.getMap(sourceData,"images");
 
         Hotel.Images images = new Hotel.Images();
-        // Images rooms
+            // Images rooms
         ArrayList<Object> roomsImagesData = DataHelper.getList(imagesData,"rooms");
         images.setRooms(roomsImagesData.stream().map(image->{
             Hotel.ImageItem imageItem = new Hotel.ImageItem();
@@ -67,7 +67,7 @@ public class PatagoniaSupplier extends BaseSupplier{
             return imageItem;
         }).collect(Collectors.toCollection(ArrayList::new)));
 
-        // Images amenities
+            // Images amenities
         ArrayList<Object> amenitiesImagesData = DataHelper.getList(imagesData,"amenities");
         images.setAmenities(amenitiesImagesData.stream().map(image->{
             Hotel.ImageItem imageItem = new Hotel.ImageItem();
